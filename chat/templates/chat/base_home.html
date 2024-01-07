@@ -1,0 +1,9 @@
+{% extends "chat/base.html" %} {% block content %} {% if documents %}
+<ul>
+  {% for doc in documents%}
+  <li><a href="{{ doc.id }}"> {{ doc.id }} </a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No documents available</p>
+{% endif %} {% endblock content %}
