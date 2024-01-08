@@ -6,11 +6,11 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 from .models import Document, Chat
-from .lib.rag import generate_answer
+from .services import query_service, upload_service
 
 logging.basicConfig(
     level='DEBUG',
-    format='%(lineno)s:%(funcName)s:%(message)s'
+    format='LOG: %(lineno)s:%(funcName)s:%(message)s'
     )
 
 logger = logging.getLogger(__name__)
@@ -32,32 +32,34 @@ class DocumentView(generic.DetailView):
         res['chat_history'] = Chat.objects.filter(document__id=res['object'].id)
         return res
     
-def upload_document(request: HttpRequest):
+def upload_document(request: HttpRequest) -> HttpResponseRedirect:
     Document(
         name=request.POST['name'],
         text=request.POST['text'],
-        uploaded=datetime.now()
+        date_uploaded=datetime.now(),
+        completed=False
     ).save()
-    
-    logger.debug(request.POST)
+
+    upload_service.upload_document(document=request.POST['text'])    
     
     return HttpResponseRedirect('/')
 
-# TODO -- think about changing up schema to be less coupled between question/answer
+def delete_document(request: HttpRequest) -> HttpResponseRedirect:
+    return HttpResponseRedirect('/')
+
+# TODO -- decouple schema?
 def chat(request: HttpRequest, doc_id: int):
     question = request.POST['question']
     document = get_object_or_404(Document, pk=doc_id)
+    chat_history_list = list(Chat.objects.filter(document__pk=doc_id))
     
-    # TODO -- convert to some dictionary/string representation
-    _chat_history = Chat.objects.filter(document__pk=doc_id)
-    
-    answer = generate_answer(question, document)
+    answer = query_service.generate_answer(question, document, chat_history_list)
     
     Chat(
         document=document,
         question=question,
         answer=answer,
-        when=datetime.now()
+        date_chatted=datetime.now()
     ).save()
     
     return HttpResponseRedirect(f'/{doc_id}')

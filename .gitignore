@@ -1,8 +1,14 @@
-**.sqlite3
+# meta
 .vscode/*
 **/__pycache__/*
-djg
-node_modules
 
-static/src/output.css
-static/CACHE
+# sensitive
+djg_chat/djg
+**.sqlite3
+.env
+
+# misc
+node_modules
+djg_chat/static/src/output.css
+djg_chat/static/CACHE
+**/venv
