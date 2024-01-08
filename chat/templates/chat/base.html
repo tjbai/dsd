@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html class="h-dvh">
   <head>
     <meta charset="utf-8" />
+    {% load static %} {% load compress %} {% compress css %} <link
+    rel="stylesheet" href="{% static "src/output.css" %}" /> {% endcompress %}
   </head>
-  <body>
-    <header>This is a header</header>
+  <body class="h-full flex flex-col font-mono">
+    <header
+      class="bg-stone-700 text-stone-100 p-2 flex flex-row justify-between"
+    >
+      <a href="/">dead simple document chat</a>
+      <a href="upload">upload</a>
+    </header>
     {% block content %}{% endblock content %}
-    <footer>This is a footer</footer>
   </body>
 </html>

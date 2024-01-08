@@ -1,5 +1,8 @@
 **.sqlite3
 .vscode/*
 **/__pycache__/*
-djg/*
-manage.py
+djg
+node_modules
+
+static/src/output.css
+static/CACHE

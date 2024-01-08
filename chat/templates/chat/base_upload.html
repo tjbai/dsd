@@ -1,0 +1,23 @@
+{% extends "chat/base.html" %} {% block content %}
+<div class='h-full p-2'>
+  <form action="/api/upload" method="post" class="flex flex-col flex-grow h-full">
+    {% csrf_token %}
+    <div class='mb-2 w-full flex'>
+        <label for="name">name: </label>
+        <input name="name" id="name" type="name" class="bg-stone-200 flex-grow px-1 ml-1"></input>
+    </div>
+
+    <div class='w-full flex h-5/6'>
+        <label for="text">text: </label>
+        <textarea name="text" id="text" type="text" class="bg-stone-200 flex-grow px-1 ml-1 "></textarea>
+    </div> 
+
+    <div class='text-center flex justify-end mt-2'>
+      <button type="submit" class="bg-stone-500 text-white font-bold p-2">
+        upload
+      </button>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}
