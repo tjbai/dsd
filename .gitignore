@@ -4,6 +4,7 @@
 
 # sensitive
 djg_chat/djg
+worker/worker
 **.sqlite3
 .env
 
