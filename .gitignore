@@ -13,3 +13,4 @@ node_modules
 djg_chat/static/src/output.css
 djg_chat/static/CACHE
 **/venv
+.DS_Store
