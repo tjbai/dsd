@@ -8,7 +8,8 @@ class Document(models.Model):
     date_uploaded = models.DateTimeField(default=timezone.now)
     date_completed = models.DateTimeField(default=timezone.now)
     embedded_successfully = models.BooleanField(default=True)
-    completed = models.BooleanField()
+    completed = models.BooleanField(default=False)
+    message_id = models.CharField(max_length=100)
     
     def __str__(self) -> str: return f'{self.uploaded.date()}\n{self.text[:50]}'
     

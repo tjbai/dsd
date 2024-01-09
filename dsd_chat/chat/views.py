@@ -1,8 +1,9 @@
-from datetime import datetime
 import logging
+from datetime import datetime
+from typing import Optional
 
 from django.views import generic
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 
 from .models import Document, Chat
@@ -33,16 +34,27 @@ class DocumentView(generic.DetailView):
         return res
     
 def upload_document(request: HttpRequest) -> HttpResponseRedirect:
+    message_id: Optional[str] = upload_service.upload_document(document=request.POST['text'])    
+    if message_id is None: HttpResponseRedirect('/error')
+    
     Document(
         name=request.POST['name'],
         text=request.POST['text'],
-        date_uploaded=datetime.now(),
-        completed=False
+        message_id=message_id
     ).save()
-
-    upload_service.upload_document(document=request.POST['text'])    
     
     return HttpResponseRedirect('/')
+
+def upload_document_callback(request: HttpRequest) -> HttpResponse:
+    # TODO -- check request status (worker side)
+    
+    # TODO -- call upload service (our side)
+    
+    # TODO -- saved embedded chunks
+    
+    # TODO -- update embedded status
+    
+    return HttpResponse(status=204)
 
 def delete_document(request: HttpRequest) -> HttpResponseRedirect:
     return HttpResponseRedirect('/')

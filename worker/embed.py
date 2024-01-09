@@ -1,6 +1,5 @@
-import os
 import json
-from typing import List
+from typing import List, Optional
 from dataclasses import dataclass, asdict
 
 import dotenv
@@ -22,7 +21,8 @@ class Chunk:
     
 @dataclass
 class EmbeddedDocument:
-    chunk_list: List[Chunk]
+    embedded_successfully: bool
+    chunk_list: Optional[List[Chunk]]    
     def serialize(self): return json.dumps(asdict(self)).encode('utf-8')
 
 # TODO -- can we do this with no dependencies?
@@ -69,6 +69,7 @@ def embed(chunk_list: List[RawChunk], model: str = 'text-embedding-ada-002') -> 
     embedding_list = client.embeddings.create(input=summary_list, model=model)
     
     return EmbeddedDocument(
+        embedded_successfully=True,
         chunk_list=[
             Chunk(index=i, chunk=chunk, summary=summary, embedding=embedding)
             for i, (chunk, summary, embedding) in enumerate(zip(chunk_list, summary_list, embedding_list))
