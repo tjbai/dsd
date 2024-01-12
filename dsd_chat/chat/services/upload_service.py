@@ -2,24 +2,24 @@ import os
 import requests
 import dotenv
 from typing import Optional
+import backoff
 
 dotenv.load_dotenv()
 
 
-def upload_document(document: str) -> Optional[str]:
+@backoff.on_exception(backoff.expo, requests.RequestException)
+def process_document(document: str) -> bool:
+    
+    '''
+    # TODO -- in principle we want this to be async
     mq_url = os.environ['QSTASH_URL']
     worker_url = os.environ['WORKER_URL']
     qstash_token = os.environ['QSTASH_TOKEN']
+    '''
     
-    url = f'{mq_url}{worker_url}'
-    data = {'text': document}
-    headers = {'Authorization': f'Bearer {qstash_token}'}
     
-    response = requests.post(url=url, data=data, headers=headers)
-    if response.status_code != 200: return None
     
-    body = response.json()
-    return body['messageId']
+    return True
 
 def upsert_document(document: str) -> None:
     pass

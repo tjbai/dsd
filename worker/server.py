@@ -29,8 +29,6 @@ class Handler(BaseHTTPRequestHandler):
     def _callback(self, data): requests.post(url=callback_url, data=data)
         
     def do_POST(self):
-        print(self.requestline)
-        
         try:
             content_length = int(self.headers['Content-Length'])
             post_data = json.loads(self.rfile.read(content_length))

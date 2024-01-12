@@ -5,11 +5,11 @@ from django.utils import timezone
 class Document(models.Model):
     name = models.CharField(max_length=100)
     text = models.CharField(max_length=1000)
-    date_uploaded = models.DateTimeField(default=timezone.now)
-    date_completed = models.DateTimeField(default=timezone.now)
     embedded_successfully = models.BooleanField(default=True)
     completed = models.BooleanField(default=False)
-    message_id = models.CharField(max_length=100)
+    date_uploaded = models.DateTimeField(default=timezone.now)
+    date_completed = models.DateTimeField(default=timezone.now)
+    
     
     def __str__(self) -> str: return f'{self.uploaded.date()}\n{self.text[:50]}'
     

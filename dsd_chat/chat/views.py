@@ -34,13 +34,12 @@ class DocumentView(generic.DetailView):
         return res
     
 def upload_document(request: HttpRequest) -> HttpResponseRedirect:
-    message_id: Optional[str] = upload_service.upload_document(document=request.POST['text'])    
-    if message_id is None: HttpResponseRedirect('/error')
+    success = upload_service.process_document(document=request.POST['text'])
+    if not success: return HttpResponseRedirect('/error/upload')
     
     Document(
         name=request.POST['name'],
         text=request.POST['text'],
-        message_id=message_id
     ).save()
     
     return HttpResponseRedirect('/')

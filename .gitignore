@@ -3,14 +3,14 @@
 **/__pycache__/*
 
 # sensitive
-djg_chat/djg
+dsd_chat/djg
 worker/worker
 **.sqlite3
 .env
 
 # misc
 node_modules
-djg_chat/static/src/output.css
-djg_chat/static/CACHE
+dsd_chat/static/src/output.css
+dsd_chat/static/CACHE/*
 **/venv
-.DS_Store
+**/.DS_Store
